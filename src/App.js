@@ -1,26 +1,77 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import React from 'react'
 
-function App() {
+
+function Header () {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="header">
+      <h4>Author Quiz</h4>
+      <p>Select the correct book written by Author</p>
+      <hr/>
     </div>
-  );
+  )
 }
 
-export default App;
+function Books ({title, onClick}) {
+  return(
+    <div className="books" onClick={() => onClick(title)}>
+    <button>{title}</button>
+  </div>
+  )
+}
+
+function Turn ({author, books, highlight, onAnswerSelected}) {
+  function mapToBgColor (highlight){
+    const mapping = {
+      none: '',
+      correct: "green",
+      wrong: "red"
+    }
+    return mapping[highlight]
+  }
+
+  return (
+    <div className="turn" style={{background:mapToBgColor(highlight)}}>
+      <div className="turn-item image">
+        <img src={author.imageUrl} alt="author" />
+      </div>
+      <div className="turn-item data">
+        {
+          books.map(title => 
+          <Books key={title} title={title} onClick={onAnswerSelected} />)}
+      </div>
+      <hr />
+    </div>
+  )
+}
+
+function Continue (){
+  return(
+    <div>
+      <hr/>
+    </div>
+  )
+}
+
+function Footer () {
+  return (
+    <div>
+      <h5>@ lario 2019</h5>
+    </div>
+  )
+}
+
+
+function AuthorQuiz ({turnData, highlight, onAnswerSelected}) {
+    return (
+      <div>
+        <Header />
+        <Turn {...turnData} highlight={highlight} onAnswerSelected={onAnswerSelected}/>
+        <Continue />
+        <Footer />
+      </div>
+    )
+}
+
+export default AuthorQuiz
+
